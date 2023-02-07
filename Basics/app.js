@@ -1,27 +1,34 @@
-const http = require('http');
-const file = require('fs');
-const html = "<html><head><title>Hello world</title></head><body><h1>Hello from my NodeJS Server.</h1></body></html>";
-const rqListner = (req, res) => {
-    const url = req.url;
-    res.setHeader('Content-Type', 'text/html');
-    if (url === '/') {
-        res.write('<html><head><title>Hello world</title></head><body><form action="/message" method="POST"><input type="text" name="message"/><button type="submit">Send</button></form></body></html>');
+const http = require("http");
+const file = require("fs");
+const html =
+    "<html><head><title>Hello world</title></head><body><h1>Hello from my NodeJS Server.</h1></body></html>";
+
+const reqListner = (req, res) => {
+    let url = req.url;
+    if (url === "/") {
+        res.write(
+            '<html><head><title>Hello world</title></head><body><form action="/message" method="POST"><input type="text" name="message"/><button type="submit">Send</button></form></body></html>'
+        );
         return res.end();
     }
     if (url === "/message" && req.method === "POST") {
-        const data = [];
-        req.on('data', (chunk) => {
-            data.push(chunk);
+        const body = [];
+        req.on("data", (chunk) => {
+            body.push(chunk);
         });
-        req.on('end', () => {
-            const parseBody = Buffer.concat(data).toString();
-            const message = (parseBody.split('=')[1]);
-            file.writeFileSync('message.txt', message);
+        return req.on("end", () => {
+            let parseBody = Buffer.concat(body).toString();
+            let message = parseBody.split("=")[1].replaceAll("+", " ");
+            file.writeFileSync("message.txt", message);
+            res.statusCode = 302;
+            res.setHeader("Location", "");
+            return res.end();
         });
-        return res.end();
     }
+    res.setHeader("Content-Type", "text/html");
     res.write(html);
     res.end();
 };
-const server = http.createServer(rqListner);
+
+const server = http.createServer(reqListner);
 server.listen(3000);
