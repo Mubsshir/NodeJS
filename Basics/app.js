@@ -19,16 +19,17 @@ const reqListner = (req, res) => {
         return req.on("end", () => {
             let parseBody = Buffer.concat(body).toString();
             let message = parseBody.split("=")[1].replaceAll("+", " ");
-            file.writeFileSync("message.txt", message);
-            res.statusCode = 302;
-            res.setHeader("Location", "");
-            return res.end();
+            file.writeFile("message.txt", message,(err)=>{
+                res.statusCode = 302;
+                res.setHeader("Location", "");
+                return res.end();
+            });
         });
     }
     res.setHeader("Content-Type", "text/html");
     res.write(html);
     res.end();
 };
-
 const server = http.createServer(reqListner);
 server.listen(3000);
+console.log("Listening for requests");
