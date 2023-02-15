@@ -1,0 +1,28 @@
+{
+  "name": "learnnode",
+  "version": "1.0.0",
+  "description": "learning node on udemey",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \" no test command found\"",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mubsshir/NodeJS.git"
+  },
+  "keywords": [
+    "javascript",
+    "nodejs",
+    "react"
+  ],
+  "author": "Mubasshir Khan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mubsshir/NodeJS/issues"
+  },
+  "homepage": "https://github.com/Mubsshir/NodeJS#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
